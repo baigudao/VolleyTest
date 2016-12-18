@@ -10,6 +10,33 @@
         android:layout_height="wrap_content"
         android:text="button" />
 
+
+    <Button
+        android:id="@+id/btn_json"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="button_json" />
+
+
+    <Button
+        android:id="@+id/btn_image"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="button_image" />
+
+    <Button
+        android:id="@+id/btn_image_load"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="button_image_load" />
+
+
+    <ImageView
+        android:id="@+id/iv_image"
+        android:layout_width="400px"
+        android:layout_height="400px"
+        android:layout_gravity="center" />
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
