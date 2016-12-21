@@ -37,8 +37,10 @@ public class MainActivity extends Activity {
     private Button button_json;
     private Button button_image;
     private Button button_image_load;
+    private Button button_post;
     private ImageView imageView;
     private TextView textView;
+
     private RequestQueue requestQueue;
 
 
@@ -47,11 +49,13 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
+
         button = (Button) findViewById(R.id.btn);
         button_json = (Button) findViewById(R.id.btn_json);
         textView = (TextView) findViewById(R.id.tv_content);
         button_image = (Button) findViewById(R.id.btn_image);
         button_image_load = (Button) findViewById(R.id.btn_image_load);
+        button_post = (Button) findViewById(R.id.btn2);
         imageView = (ImageView) findViewById(R.id.iv_image);
 
 
@@ -59,6 +63,12 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View v) {
                 loadNetContent();
+            }
+        });
+        button_post.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadNetContentByPost();
             }
         });
         button_json.setOnClickListener(new View.OnClickListener() {
@@ -94,10 +104,11 @@ public class MainActivity extends Activity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-
+                Toast.makeText(MainActivity.this, volleyError.getMessage(), Toast.LENGTH_SHORT).show();
             }
         }) {
             protected final String TYPE_UTF8_CHARSET = "charset=UTF-8";
+
             // 重写parseNetworkResponse方法改变返回头参数解决乱码问题
             // 主要是看服务器编码，如果服务器编码不是UTF-8的话那么就需要自己转换，反之则不需要
             @Override
@@ -121,28 +132,27 @@ public class MainActivity extends Activity {
         requestQueue.add(stringRequest);
     }
 
-    private void postRequest (){
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, "xxx", new Response.Listener<String>() {
+
+    private void loadNetContentByPost() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, "http://172.17.53.1:8080/server-test/test", new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
-
+                textView.setText(s);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-
+                Toast.makeText(MainActivity.this, volleyError.getMessage(), Toast.LENGTH_SHORT).show();
             }
-        }){
-            //设置post请求的参数
+        }) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String,String> map = new HashMap<>();
-                map.put("m","admin");
-                map.put("p","123456");
+                Map<String, String> map = new HashMap<>();
+                map.put("lname", "admin");
+                map.put("pwd", "123456");
                 return map;
             }
         };
-        stringRequest.setShouldCache(true);
         requestQueue.add(stringRequest);
     }
 
